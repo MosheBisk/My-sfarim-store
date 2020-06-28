@@ -20,7 +20,7 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
     category = CategorySerializer(many=True, read_only=True)
     class Meta:
         model = Book
-        fields = ('id', 'name', 'auther', 'category', 'universal_product_code', 'price', 'publisher')
+        fields = ('id', 'name', 'auther', 'category', 'book_description', 'universal_product_code', 'price', 'publisher')
 
 
 class PersonalDataSerializer(serializers.HyperlinkedModelSerializer):

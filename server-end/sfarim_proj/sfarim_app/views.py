@@ -51,7 +51,7 @@ def book_detail(request, prk):
         return JsonResponse(book_serializer.data)
 
     # Update one record
-    if request.method == 'PUT':
+    if request.method == 'PATCH':
         book_data = JSONParser().parse(request)
         book_serializer = BookSerializer(my_book, data=book_data)
         if book_serializer.is_valid():
@@ -63,3 +63,10 @@ def book_detail(request, prk):
     if request.method == 'DELETE':
         my_book.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+
+@csrf_exempt
+def category_list(request):
+    if request.method == 'GET':
+        my_categories = Category.objects.all()
+        category_serializer = CategorySerializer(my_categories, many=True)
+        return JsonResponse(category_serializer.data, safe=False)
