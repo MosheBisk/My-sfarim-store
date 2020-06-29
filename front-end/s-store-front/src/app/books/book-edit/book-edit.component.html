@@ -20,8 +20,8 @@
             <label for="auther">Auther</label>
             <input type="text" id="auther" formControlName="auther" class="form-control">
             <label for="category">Category</label>
-            <select id="category" formControlName="category" class="form-control">
-                <option [value]="c.id" *ngFor="let c of category">{{c.title}}</option>
+            <select multiple id="category" formControlName="category" class="form-control">
+                <option [ngValue]="c.id" *ngFor="let c of category">{{c.title}}</option>
             </select>
             <!-- <input type="text" id="category" formControlName="category" class="form-control"> -->
             <label for="description">Description</label>

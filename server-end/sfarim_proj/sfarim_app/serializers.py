@@ -15,12 +15,18 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'title')
 
 
-# class BookSerializer(serializers.ModelSerializer):
-class BookSerializer(serializers.HyperlinkedModelSerializer):
-    category = CategorySerializer(many=True, read_only=True)
+class BookSerializer(serializers.ModelSerializer):
+# class BookSerializer(serializers.HyperlinkedModelSerializer):
+    # category = CategorySerializer(many=True, read_only=True)
     class Meta:
         model = Book
         fields = ('id', 'name', 'auther', 'category', 'book_description', 'universal_product_code', 'price', 'publisher')
+
+    def to_representation(self, instance):
+        representation = super(BookSerializer, self).to_representation(instance)
+        representation['category'] = CategorySerializer(instance.category, many=True).data
+        return representation 
+
 
 
 class PersonalDataSerializer(serializers.HyperlinkedModelSerializer):

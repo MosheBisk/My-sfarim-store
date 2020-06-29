@@ -19,6 +19,7 @@ export class BookEditComponent implements OnInit {
   formInit = false;
   success:boolean = false;
   bookForm: FormGroup;
+  updForm:any;
 
   constructor(private bookService: BookService,
               private activatedRout: ActivatedRoute,
@@ -38,6 +39,7 @@ export class BookEditComponent implements OnInit {
   loadBookData() {
     console.log('BookEditComponent ngOnInit loadBookData start');
     if (this.book_id > 0) {
+    console.log('BookEditComponent ngOnInit loadBookData this.book_id', this.book_id);
       this.bookService.listBook(this.book_id)
         .subscribe(
           book_data =>{
@@ -57,7 +59,7 @@ export class BookEditComponent implements OnInit {
             this.category = category_data;
             console.log('BookEditComponent this.category - ', this.category);
             
-            if(this.formInit){
+            if(!this.formInit){
               this.initForm();
             }
           }
@@ -71,7 +73,7 @@ export class BookEditComponent implements OnInit {
     this.formInit = true;
     let bName = '';
     let bAuther = '';
-    let bCategory: Category;
+    let bCategory: number;
     let bDescription = '';
     let bUPC;
     let bPrice;
@@ -126,6 +128,31 @@ export class BookEditComponent implements OnInit {
         }
       )
   }
+  // updateBookDetailes(){
+
+  //   let updateBook = {
+  //     auther: this.bookForm.value.auther,
+  //     book_description: this.bookForm.value.book_description,
+  //     category:  [{
+  //       id:this.bookForm.value.category.id,
+  //       title: 'Muser'
+  //     }],
+  //     id: this.bookForm.value.id,
+  //     name: this.bookForm.value.name,
+  //     price: this.bookForm.value.price,
+  //     publisher: this.bookForm.value.publisher,
+  //     universal_product_code: this.bookForm.value.universal_product_code
+  //   }
+  //   console.log("this is the patch info", updateBook);
+    
+  //   this.bookService.updateBookD(this.book_id, updateBook)
+  //     .subscribe(
+  //       res =>{
+  //         console.log('Book ', res, ' updated');
+  //         this.success = true;
+  //       }
+  //     )
+  // }
 
   addNewBook(){
     console.log('this.bookForm.value - ', this.bookForm.value);

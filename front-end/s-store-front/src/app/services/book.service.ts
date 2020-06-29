@@ -29,7 +29,7 @@ export class BookService {
   }
 
   // PATCH - update one book's details
-  updateBookD(id: number, book: Book): Observable<any>{
+  updateBookD(id: number, book: any): Observable<any>{
     return this.http.patch(this.endpoint + 'books/' + id, book)
   }
   
