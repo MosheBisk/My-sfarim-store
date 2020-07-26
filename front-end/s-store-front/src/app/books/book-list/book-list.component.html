@@ -2,7 +2,7 @@
 <div *ngIf="books$">
     <table>
         <thead>
-            <th>ID</th>
+            <th>#   |</th>
             <th>Name</th>
             <th>Auther</th>
             <th>Category</th>
@@ -12,8 +12,8 @@
             <th>Publisher</th>
         </thead>
         <tbody>
-            <tr *ngFor="let book of books$">
-                <td>{{book.id}}</td>
+            <tr *ngFor="let book of books$; let i = index">
+                <td>{{i + 1}}</td>
                 <td>{{book.name}}</td>
                 <td>{{book.auther}}</td>
                 <td><p *ngFor="let c of book.category">{{c.title}}</p></td>
@@ -22,7 +22,8 @@
                 <td>{{book.price}}</td>
                 <td>{{book.publisher}}</td>
                 <td>
-                    <a type="button" [routerLink]="['../edit', book.id]">Edit</a>
+                    <a type="button" [routerLink]="['../edit', book.id]">Edit</a><br>
+                    <a type="button" (click)="deleteBook(book.id)">Delete</a>
                 </td>
             </tr>
         </tbody>

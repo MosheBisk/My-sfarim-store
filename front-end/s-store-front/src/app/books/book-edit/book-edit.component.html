@@ -1,14 +1,5 @@
 <p>book-edit works!</p>
 <div class="external-wrapper">
-    <!-- <div *ngIf="book_id">
-        <p>{{book.name}}</p>
-        <p>{{book.auther}}</p>
-        <p *ngFor="let c of book.category">{{c.title}}</p>
-        <p>{{book.book_description}}</p>
-        <p>{{book.universal_product_code}}</p>
-        <p>{{book.price}}</p>
-        <p>{{book.publisher}}</p>
-    </div> -->
     <form *ngIf="bookForm" [formGroup]="bookForm" (ngSubmit)="onSubmit()">
         <p>form</p>
         <div class="fields-wrapper">
@@ -23,7 +14,6 @@
             <select multiple id="category" formControlName="category" class="form-control">
                 <option [ngValue]="c.id" *ngFor="let c of category">{{c.title}}</option>
             </select>
-            <!-- <input type="text" id="category" formControlName="category" class="form-control"> -->
             <label for="description">Description</label>
             <input type="text" id="book_description" formControlName="book_description" class="form-control">
             <label for="upc">UPC</label>

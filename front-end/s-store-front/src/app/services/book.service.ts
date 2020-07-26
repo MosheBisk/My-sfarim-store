@@ -33,6 +33,11 @@ export class BookService {
     return this.http.patch(this.endpoint + 'books/' + id, book)
   }
   
+  // DELETE - one book
+  deleteOneBook(id: number): Observable<any>{
+    return this.http.delete(this.endpoint + 'books/' + id)
+  }
+  
   // list all categories
   listCategorys(): Observable<any>{
     return this.http.get(this.endpoint + 'categories/')

@@ -30,4 +30,13 @@ export class BookListComponent implements OnInit {
     
   }
 
+  deleteBook(bookId: number){
+    this.bookService.deleteOneBook(bookId)
+      .subscribe(
+        () => {
+          this.listOfBooks();
+          
+        }
+      )
+  }
 }

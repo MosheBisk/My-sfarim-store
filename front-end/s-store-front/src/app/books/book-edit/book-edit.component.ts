@@ -5,6 +5,7 @@ import { FormGroup, FormControl, FormArray, Validators } from "@angular/forms";
 import { Book } from "../../models/book";
 import { BookService } from "../../services/book.service";
 import { Category } from "../../models/category";
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-book-edit',
@@ -12,6 +13,9 @@ import { Category } from "../../models/category";
   styleUrls: ['./book-edit.component.css']
 })
 export class BookEditComponent implements OnInit {
+  dropdownList = [];
+  selectedItems = [];
+  dropdownSettings:IDropdownSettings = {};
   
   book: Book;
   book_id: number;
@@ -19,7 +23,7 @@ export class BookEditComponent implements OnInit {
   formInit = false;
   success:boolean = false;
   bookForm: FormGroup;
-  updForm:any;
+  editMode = false;
 
   constructor(private bookService: BookService,
               private activatedRout: ActivatedRoute,
@@ -29,16 +33,16 @@ export class BookEditComponent implements OnInit {
     this.activatedRout.paramMap.subscribe(
       param => {
         this.book_id = Number(param.get("id"))      
-        // this.editMode = param.get("id") != null;
-        // console.log('onInit editmode = ', this.editMode);
+        this.editMode = param.get("id") != null;
+        console.log('onInit editmode = ', this.editMode);
         this.loadBookData();
       }
     );
   }
-
+  
   loadBookData() {
     console.log('BookEditComponent ngOnInit loadBookData start');
-    if (this.book_id > 0) {
+    if (this.editMode) {
     console.log('BookEditComponent ngOnInit loadBookData this.book_id', this.book_id);
       this.bookService.listBook(this.book_id)
         .subscribe(
@@ -46,9 +50,9 @@ export class BookEditComponent implements OnInit {
             console.log('BookEditComponent ngOnInit loadBookData book_data = ', book_data);
             this.book = book_data;
             console.log('BookEditComponent ngOnInit this.book = ', this.book);
-            if(!this.formInit){
-              this.initForm();
-            }
+            // if(!this.formInit){
+              this.initForm('bookD');
+            // }
           }
         ) 
     }
@@ -59,8 +63,8 @@ export class BookEditComponent implements OnInit {
             this.category = category_data;
             console.log('BookEditComponent this.category - ', this.category);
             
-            if(!this.formInit){
-              this.initForm();
+            if(!this.editMode){
+              this.initForm('catgory');
             }
           }
         )
@@ -68,8 +72,8 @@ export class BookEditComponent implements OnInit {
     console.log('BookEditComponent ngOnInit loadBookData end');
   }
 
-  private initForm(){
-    console.log('BookEditComponent initForm start');
+  private initForm(txt: string){
+    console.log('BookEditComponent initForm start', txt);
     this.formInit = true;
     let bName = '';
     let bAuther = '';
@@ -79,7 +83,7 @@ export class BookEditComponent implements OnInit {
     let bPrice;
     let bPublisher = '';
 
-    if (this.book_id > 0) {
+    if (this.editMode) {
       console.log('init form book_id == V, this.book - ', this.book);
       
       bName = this.book.name;
@@ -104,17 +108,17 @@ export class BookEditComponent implements OnInit {
 
   onSubmit(){
     console.log('onSubmit()');
-    if (this.book_id > 0) {
+    if (this.editMode) {
       this.updateBookDetailes();
       setTimeout(() => {
         this.onCancel()
-      }, 2000);
+      }, 1500);
     }
     else{
       this.addNewBook();
       setTimeout(() => {
         this.onCancel()
-      }, 2000);
+      }, 1500);
     }
   }
 
@@ -128,31 +132,6 @@ export class BookEditComponent implements OnInit {
         }
       )
   }
-  // updateBookDetailes(){
-
-  //   let updateBook = {
-  //     auther: this.bookForm.value.auther,
-  //     book_description: this.bookForm.value.book_description,
-  //     category:  [{
-  //       id:this.bookForm.value.category.id,
-  //       title: 'Muser'
-  //     }],
-  //     id: this.bookForm.value.id,
-  //     name: this.bookForm.value.name,
-  //     price: this.bookForm.value.price,
-  //     publisher: this.bookForm.value.publisher,
-  //     universal_product_code: this.bookForm.value.universal_product_code
-  //   }
-  //   console.log("this is the patch info", updateBook);
-    
-  //   this.bookService.updateBookD(this.book_id, updateBook)
-  //     .subscribe(
-  //       res =>{
-  //         console.log('Book ', res, ' updated');
-  //         this.success = true;
-  //       }
-  //     )
-  // }
 
   addNewBook(){
     console.log('this.bookForm.value - ', this.bookForm.value);
